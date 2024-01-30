@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+</head>
+
+<body class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+
+    <div
+        class=" mt-10 bg-stone-300 flex flex-col  w-full md:w-1/3 mx-auto space-y-10 border-2 border-black rounded-[40px] p-5">
+        <!-- button for log in and signup  -->
+        <div class="  mx-auto  border-2 black rounded-[10px]">
+            <button class="     font-bold text-orange-950 ">
+                <a href="index.html"class="px-2">log in</a>
+            </button>
+            <button class="p-2 bg-purple-500 font-bold text-white rounded-[10px] ">
+                <a>sign up</a></button>
+        </div>
+
+        <img src="add-friend.png" alt="sigup image" class="w-[90px] mx-auto">
+        <!-- heading  -->
+        <h1 class="flex justify-center text-4xl text-orange-950 font-extrabold">Sign Up</h1>
+
+        <!-- details  -->
+        <form class="space-y-3" id="Form">
+
+            <!-- email  -->
+            <div>
+                <label for="email" class="font-bold text-orange-950  text-xl">Email : </label>
+                <input type="email" name="email_id" placeholder="please enter your email"
+                   id="email" class="w-full px-3 border-2 rounded-[40px]">
+            </div>
+
+            <!-- mobile number -->
+            <div>
+                <label for="mobno" class="font-bold text-orange-950  text-xl">Mobile no:</label>
+                <input type="tel" name="mobno" id="mobno" placeholder="mobile no." class="w-full  px-3 border-2 rounded-[40px]">
+            </div>
+
+            <!-- password  -->
+            <div>
+                <label for="pass" class="font-bold text-orange-950  text-xl"> New Password :</label>
+                <input type="password" name="password" id="pass" class="w-full  px-3 border-2  rounded-[40px]"
+                    placeholder="Create Password">
+            </div>
+            <!-- confirmPassword  -->
+            <div>
+                <label for="pass" class="font-bold text-orange-950  text-xl"> Confirm Password :</label>
+                <input type="password" name="Confirm password" id="Cpass" class="w-full  px-3 border-2 rounded-[40px]"
+                    placeholder="Confirm Password">
+            </div>
+
+            <!-- sign up button -->
+            <div class="flex justify-center"  >
+                <button type="button" class=" w-20 py-2 font-bold text-orange-950 border-4 white rounded-[10px] 
+                 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-stone-600 hover:text-white" >
+                 
+                       <a href="#" id="signup" onclick="validatePassword()">Sign Up</a></button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+       function validatePassword() {
+  var password = document.getElementById("pass").value;
+  var confirmPassword = document.getElementById("Cpass").value;
+
+  if (password !== confirmPassword) {
+      alert("Passwords do not match! Please Recheck");
+  } 
+  else if(password != null  && confirmPassword != null)
+  {
+     
+    alert("Passwords match!");
+  }  
+  else{
+    alert("please enter Passwords!");
+  }  
+      
+        
+    
+  
+}
+
+
+
+    </script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+        import { getDatabase,set,ref} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries 
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDt93EmqmtQW9Zyu6UsILYnnLinRUabbls",
+          authDomain: "loginsignup-1f227.firebaseapp.com",
+          databaseURL: "https://loginsignup-1f227-default-rtdb.firebaseio.com",
+          projectId: "loginsignup-1f227",
+          storageBucket: "loginsignup-1f227.appspot.com",
+          messagingSenderId: "673612888536",
+          appId: "1:673612888536:web:bd2763e507e3eb1c959aad"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database=getDatabase(app);
+        const auth =getAuth();
+
+       signup.addEventListner('click',(e) =>{
+
+        var email = document.getElementById('email').value;
+        var mobile = document.getElementById('mobno').value;
+        var password = document.getElementById('pass').value;
+       
+
+        createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    set(ref(database,'users/'+ user.uid),{
+        email : email,
+        mobile : mobile
+    })
+    alert('user created ! WElCOME')
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    alert(errorMessage);
+    // ..
+
+  }); 
+
+       });
+      </script>
+
+</body>
+
+</html>
